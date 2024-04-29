@@ -1,1 +1,79 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+num_repeats = 100
+n = 10
+p = 0.5
+
+sequences = np.random.binomial(1, p, size=(num_repeats, n))
+num_successes = np.sum(sequences, axis=1)
+
+fig, ax = plt.subplots(figsize=(8, 6))
+ax.hist(num_successes, bins=np.arange(n + 2), density=True, edgecolor='white')
+ax.set_xlabel('Number of Successes (Heads)')
+ax.set_ylabel('Frequency')
+ax.set_title('Question 1 (c)')
+plt.show()
+
+
+
+sequences_filtered = sequences[num_successes >= 3]
+num_successes_filtered = np.sum(sequences_filtered, axis=1)
+
+fig, ax = plt.subplots(figsize=(8, 6))
+ax.hist(num_successes_filtered, bins=np.arange(3, n + 2), density=True, edgecolor='white')
+ax.set_xlabel('Number of Successes (Heads)')
+ax.set_ylabel('Frequency')
+ax.set_title('Question 1 (d)')
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+alphas = np.random.uniform(1, 100, size=4)
+
+def simulate_and_plot(alpha):
+    n = int(np.ceil(alpha + 3 * np.sqrt(alpha)))
+    p = alpha / n
+
+    num_experiments = 10000
+    binomial_rvs = np.random.binomial(n, p, num_experiments)
+    poisson_rvs = np.random.poisson(alpha, num_experiments)
+
+    fig, ax = plt.subplots(figsize=(8, 6))
+    ax.hist(binomial_rvs, bins=np.arange(n + 2), density=True, edgecolor='black', alpha=0.5, label='Binomial')
+
+    max_poisson_value = max(poisson_rvs) + 1
+    bins = np.arange(max_poisson_value + 1)
+    ax.hist(poisson_rvs, bins=bins, density=True, edgecolor='black', alpha=0.5, label='Poisson')
+
+    ax.set_xlabel('Number of Successes')
+    ax.set_ylabel('Probability')
+    ax.set_title(f'Binomial (n={n}, p={p:.3f}) and Poisson (λ={alpha:.3f}) Histograms')
+    ax.legend()
+
+    plt.show()
+
+for alpha in alphas:
+    simulate_and_plot(alpha)
 
